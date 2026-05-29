@@ -6,10 +6,21 @@ import cors from "cors";
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({ origin: "http://localhost:5173" }));
+// app.use(cors({ origin: "http://localhost:5173" }));
+
+// const io = new Server(server, {
+//   cors: { origin: "http://localhost:5173" },
+// });
+
+app.use(cors({
+  origin: "*",
+}));
 
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173" },
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", (socket) => {
@@ -50,7 +61,12 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(5000, () => console.log("RUNNING"));
+// server.listen(5000, () => console.log("RUNNING"));
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+  console.log("RUNNING ON PORT", PORT);
+});
 
 
 
